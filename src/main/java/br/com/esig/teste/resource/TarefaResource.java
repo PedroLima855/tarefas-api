@@ -40,14 +40,12 @@ public class TarefaResource {
 	@PostMapping("/salvar")
 	@ApiOperation(value = "Salva uma tarefa")
 	@ResponseStatus(HttpStatus.CREATED)
-//	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA')")
 	public Tarefa salvar(@Valid @RequestBody Tarefa tarefa, HttpServletResponse response) {
 		return tarefaService.salvarTarefa(tarefa, response);
 	}
 
 	@PutMapping("/atualizar/{id}")
 	@ApiOperation(value = "Atualiza uma tarefa")
-//	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA')")
 	public ResponseEntity<Tarefa> atualizarTarefa(@Valid @RequestBody Tarefa tarefa, @PathVariable Long id) {
 
 		Optional<Tarefa> retorno = tarefaService.buscarPorId(id);
@@ -62,7 +60,6 @@ public class TarefaResource {
 
 	@DeleteMapping("/deletar/{id}")
 	@ApiOperation(value = "Deleta uma tarefa")
-//	@PreAuthorize("hasAuthority('ROLE_REMOVER_PESSOA')")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 
 		Optional<Tarefa> retorno = tarefaService.buscarPorId(id);
@@ -78,7 +75,6 @@ public class TarefaResource {
 	@GetMapping("/listar")
 	@ApiOperation(value ="Consulta tarefas")
 	@ResponseStatus(HttpStatus.OK)
-//	@PreAuthorize("hasAuthority('USER')")
 	public List<Tarefa> listarTarefas(@RequestParam(value = "numero", required = false) Long id,
 			@RequestParam(value = "titulo", required = false) String titulo,
 			@RequestParam(value = "descricao", required = false) String descricao,
@@ -91,7 +87,6 @@ public class TarefaResource {
 
 	@PatchMapping("/finalizado/{id}")
 	@ApiOperation(value = "Altera tarefa para concluido ou andamento")
-//	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA')")
 	public ResponseEntity<Void> atualizarTarefaEmAndamento(@PathVariable Long id, @RequestBody Boolean situacao) {
 
 		Optional<Tarefa> retorno = tarefaService.buscarPorId(id);

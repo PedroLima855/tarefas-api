@@ -33,15 +33,18 @@ public class ConsultaTarefaRepositoryImpl {
 		}
 
 		if (descricao != null) {
-			query += condicao + " UPPER(T.descricao) LIKE CONCAT('%',UPPER(:descricao),'%')";
+			query += condicao + " UPPER(T.descricao) LIKE CONCAT('%',UPPER(:descricao),'%') ";
+			condicao = " and ";
 		}
 
 		if (responsavel != null) {
-			query += condicao + " UPPER(T.responsavel) LIKE CONCAT('%',UPPER(:responsavel),'%')";
+			query += condicao + " UPPER(T.responsavel) LIKE CONCAT('%',UPPER(:responsavel),'%') ";
+			condicao = " and ";
 		}
 
 		if (concluida != null) {
-			query += condicao + " T.concluida = :concluida";
+			query += condicao + " T.concluida = :concluida ";
+			condicao = " and ";
 		}
 
 		var q = manager.createQuery(query, Tarefa.class);
