@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -39,6 +40,7 @@ public class TarefaResource {
 
 	@PostMapping("/salvar")
 	@ApiOperation(value = "Salva uma tarefa")
+	@PreAuthorize("hasRole('ADMIN')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Tarefa salvar(@Valid @RequestBody Tarefa tarefa, HttpServletResponse response) {
 		return tarefaService.salvarTarefa(tarefa, response);
@@ -46,6 +48,7 @@ public class TarefaResource {
 
 	@PutMapping("/atualizar/{id}")
 	@ApiOperation(value = "Atualiza uma tarefa")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Tarefa> atualizarTarefa(@Valid @RequestBody Tarefa tarefa, @PathVariable Long id) {
 
 		Optional<Tarefa> retorno = tarefaService.buscarPorId(id);
@@ -59,6 +62,7 @@ public class TarefaResource {
 	}
 
 	@DeleteMapping("/deletar/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	@ApiOperation(value = "Deleta uma tarefa")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 
@@ -86,6 +90,7 @@ public class TarefaResource {
 	}
 
 	@PatchMapping("/finalizado/{id}")
+	@PreAuthorize("hasRole('ADMIN')")
 	@ApiOperation(value = "Altera tarefa para concluido ou andamento")
 	public ResponseEntity<Void> atualizarTarefaEmAndamento(@PathVariable Long id, @RequestBody Boolean situacao) {
 
