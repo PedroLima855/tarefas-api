@@ -40,7 +40,7 @@ public class TarefaResource {
 
 	@PostMapping("/salvar")
 	@ApiOperation(value = "Salva uma tarefa")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MASTER')")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Tarefa salvar(@Valid @RequestBody Tarefa tarefa, HttpServletResponse response) {
 		return tarefaService.salvarTarefa(tarefa, response);
@@ -48,7 +48,7 @@ public class TarefaResource {
 
 	@PutMapping("/atualizar/{id}")
 	@ApiOperation(value = "Atualiza uma tarefa")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MASTER')")
 	public ResponseEntity<Tarefa> atualizarTarefa(@Valid @RequestBody Tarefa tarefa, @PathVariable Long id) {
 
 		Optional<Tarefa> retorno = tarefaService.buscarPorId(id);
@@ -62,7 +62,7 @@ public class TarefaResource {
 	}
 
 	@DeleteMapping("/deletar/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MASTER')")
 	@ApiOperation(value = "Deleta uma tarefa")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 
@@ -79,6 +79,7 @@ public class TarefaResource {
 	@GetMapping("/listar")
 	@ApiOperation(value ="Consulta tarefas")
 	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasAuthority('USER')")
 	public List<Tarefa> listarTarefas(@RequestParam(value = "numero", required = false) Long id,
 			@RequestParam(value = "titulo", required = false) String titulo,
 			@RequestParam(value = "descricao", required = false) String descricao,
@@ -90,7 +91,7 @@ public class TarefaResource {
 	}
 
 	@PatchMapping("/finalizado/{id}")
-	@PreAuthorize("hasRole('ADMIN')")
+	@PreAuthorize("hasAuthority('MASTER')")
 	@ApiOperation(value = "Altera tarefa para concluido ou andamento")
 	public ResponseEntity<Void> atualizarTarefaEmAndamento(@PathVariable Long id, @RequestBody Boolean situacao) {
 

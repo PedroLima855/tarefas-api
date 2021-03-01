@@ -3,7 +3,6 @@ package br.com.esig.teste.repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
 
@@ -48,7 +47,7 @@ public class ConsultaTarefaRepositoryImpl {
 			condicao = " and ";
 		}
 
-		TypedQuery<Tarefa> q = manager.createQuery(query, Tarefa.class);
+		var q = manager.createQuery(query, Tarefa.class);
 
 		if (id != null) {
 			q.setParameter("id", id);
