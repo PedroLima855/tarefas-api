@@ -3,7 +3,6 @@ package br.com.esig.teste.resource;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -34,16 +33,15 @@ public class TarefaResource {
 	private TarefaService tarefaService;
 
 	public TarefaResource(TarefaService tarefaService) {
-		super();
 		this.tarefaService = tarefaService;
 	}
 
 	@PostMapping("/salvar")
 	@ApiOperation(value = "Salva uma tarefa")
 	@PreAuthorize("hasAuthority('MASTER')")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Tarefa salvar(@Valid @RequestBody Tarefa tarefa, HttpServletResponse response) {
-		return tarefaService.salvarTarefa(tarefa, response);
+	public ResponseEntity<Tarefa> salvar(@Valid @RequestBody Tarefa tarefa) {
+		 Tarefa tarefaSalva = tarefaService.salvarTarefa(tarefa);
+		 return ResponseEntity.status(HttpStatus.CREATED).body(tarefaSalva);
 	}
 
 	@PutMapping("/atualizar/{id}")

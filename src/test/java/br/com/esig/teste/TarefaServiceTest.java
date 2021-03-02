@@ -25,7 +25,7 @@ public class TarefaServiceTest {
         tarefa.setPrioridade(Prioridade.MEDIA);
         tarefa.setResponsavel("Pedro");
         tarefa.setDeadline(LocalDate.now());;
-        tarefaService.salvarTarefa(tarefa, null);
+        tarefaService.salvarTarefa(tarefa);
 
     }
 
@@ -33,7 +33,7 @@ public class TarefaServiceTest {
     public void atualizarTarefaTest(){
         Optional<Tarefa> tarefa = tarefaService.buscarPorId(1L);
         tarefa.get().setResponsavel("Vanessa");
-        tarefaService.salvarTarefa(tarefa.get(), null);
+        tarefaService.salvarTarefa(tarefa.get());
     }
 
     @Test
@@ -52,6 +52,6 @@ public class TarefaServiceTest {
     public void atualizarTarefaEmAndamentoTest(){
         Optional<Tarefa> tarefa = tarefaService.buscarPorId(3L);
         tarefa.get().setConcluida(false);
-        tarefaService.salvarTarefa(tarefa.get(), null);
+        tarefaService.salvarTarefa(tarefa.get());
     }
 }

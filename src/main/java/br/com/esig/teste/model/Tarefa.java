@@ -1,5 +1,7 @@
 package br.com.esig.teste.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -26,6 +28,7 @@ public class Tarefa {
 	private String responsavel;
 
 	@NotNull
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private LocalDate deadline;
 
 	@NotNull
