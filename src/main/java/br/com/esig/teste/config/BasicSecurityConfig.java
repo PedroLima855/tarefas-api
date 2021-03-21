@@ -31,7 +31,7 @@ public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
 				.withUser("esig")
 				.password(passwordEncoder.encode("teste"))
-				.roles("USER", "ADMIN")
+				.roles("USER", "MASTER")
 				.and()
 				.withUser("pedro")
 				.password(passwordEncoder.encode("teste"))

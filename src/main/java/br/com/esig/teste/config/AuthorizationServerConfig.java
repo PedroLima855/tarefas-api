@@ -1,5 +1,6 @@
 package br.com.esig.teste.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -8,9 +9,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.web.filter.CorsFilter;
 
 @Deprecated
 @Configuration
@@ -22,9 +25,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     private UserDetailsService userDetailsService;
 
-    public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+    @Autowired
+    private CorsFilter corsFilter;
+
+    public AuthorizationServerConfig(AuthenticationManager authenticationManager, UserDetailsService userDetailsService, CorsFilter corsFilter) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
+        this.corsFilter = corsFilter;
+    }
+
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.addTokenEndpointAuthenticationFilter(this.corsFilter);
     }
 
     @Override

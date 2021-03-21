@@ -45,13 +45,13 @@ public class TarefaServiceTest {
     @Test
     public void consultarTarefaTest(){
         List<Tarefa> tarefas = tarefaService.listarTarefas(1L, "Lavar", "deve lavar",
-                "Vanessa", false);
+                "Vanessa", "Andamento");
     }
 
     @Test
     public void atualizarTarefaEmAndamentoTest(){
         Optional<Tarefa> tarefa = tarefaService.buscarPorId(3L);
-        tarefa.get().setConcluida(false);
+        tarefa.get().setSituacao("Concluida");
         tarefaService.salvarTarefa(tarefa.get());
     }
 }

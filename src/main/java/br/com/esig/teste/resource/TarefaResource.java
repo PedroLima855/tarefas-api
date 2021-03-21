@@ -39,7 +39,7 @@ public class TarefaResource {
 	@PostMapping("/salvar")
 	@ApiOperation(value = "Salva uma tarefa")
 	@PreAuthorize("hasAuthority('MASTER')")
-	public ResponseEntity<Tarefa> salvar(@Valid @RequestBody Tarefa tarefa) {
+	public ResponseEntity<Tarefa> salvar(@RequestBody Tarefa tarefa) {
 		 Tarefa tarefaSalva = tarefaService.salvarTarefa(tarefa);
 		 return ResponseEntity.status(HttpStatus.CREATED).body(tarefaSalva);
 	}
@@ -77,21 +77,21 @@ public class TarefaResource {
 	@GetMapping("/listar")
 	@ApiOperation(value ="Consulta tarefas")
 	@ResponseStatus(HttpStatus.OK)
-	@PreAuthorize("hasAuthority('USER')")
+	@PreAuthorize("hasAuthority('MASTER')")
 	public List<Tarefa> listarTarefas(@RequestParam(value = "numero", required = false) Long id,
 			@RequestParam(value = "titulo", required = false) String titulo,
 			@RequestParam(value = "descricao", required = false) String descricao,
 			@RequestParam(value = "responsavel", required = false) String responsavel,
-			@RequestParam(value = "concluida", required = false) Boolean concluida) {
+			@RequestParam(value = "situacao", required = false) String situacao) {
 
-		return tarefaService.listarTarefas(id, titulo, descricao, responsavel, concluida);
+		return tarefaService.listarTarefas(id, titulo, descricao, responsavel, situacao);
 
 	}
 
 	@PatchMapping("/finalizado/{id}")
 	@PreAuthorize("hasAuthority('MASTER')")
 	@ApiOperation(value = "Altera tarefa para concluido ou andamento")
-	public ResponseEntity<Void> atualizarTarefaEmAndamento(@PathVariable Long id, @RequestBody Boolean situacao) {
+	public ResponseEntity<Void> atualizarTarefaEmAndamento(@PathVariable Long id, @RequestBody String situacao) {
 
 		Optional<Tarefa> retorno = tarefaService.buscarPorId(id);
 
@@ -102,6 +102,20 @@ public class TarefaResource {
 		tarefaService.atualizaTarefaEmAndamento(retorno.get(), situacao);
 
 		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/listar/{id}")
+	@ApiOperation(value ="Consulta tarefas")
+	@ResponseStatus(HttpStatus.OK)
+	@PreAuthorize("hasAuthority('USER')")
+	public ResponseEntity<Tarefa> buscarId(@PathVariable Long id){
+		Optional<Tarefa> tarefa =  tarefaService.buscarPorId(id);
+
+		if(!tarefa.isPresent()){
+			return ResponseEntity.notFound().build();
+		}
+
+		return ResponseEntity.ok().body(tarefa.get());
 	}
 
 }

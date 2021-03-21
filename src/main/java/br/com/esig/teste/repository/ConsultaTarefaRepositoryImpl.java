@@ -17,7 +17,7 @@ public class ConsultaTarefaRepositoryImpl {
 		this.manager = manager;
 	}
 
-	public List<Tarefa> buscar(Long id, String titulo, String descricao, String responsavel, Boolean concluida) {
+	public List<Tarefa> buscar(Long id, String titulo, String descricao, String responsavel, String situacao) {
 
 		String query = "select T from Tarefa as T ";
 		String condicao = "where";
@@ -42,8 +42,8 @@ public class ConsultaTarefaRepositoryImpl {
 			condicao = " and ";
 		}
 
-		if (concluida != null) {
-			query += condicao + " T.concluida = :concluida ";
+		if (situacao != null) {
+			query += condicao + " UPPER(T.situacao) LIKE CONCAT('%',UPPER(:situacao),'%') ";
 			condicao = " and ";
 		}
 
@@ -65,8 +65,8 @@ public class ConsultaTarefaRepositoryImpl {
 			q.setParameter("responsavel", responsavel);
 		}
 
-		if (concluida != null) {
-			q.setParameter("concluida", concluida);
+		if (situacao != null) {
+			q.setParameter("situacao", situacao);
 		}
 
 		return q.getResultList();

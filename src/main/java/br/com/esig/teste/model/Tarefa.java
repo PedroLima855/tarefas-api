@@ -28,27 +28,26 @@ public class Tarefa {
 	private String responsavel;
 
 	@NotNull
-	@JsonFormat(pattern="dd/MM/yyyy")
 	private LocalDate deadline;
 
 	@NotNull
 	private Prioridade prioridade;
 
 	@NotNull
-	private Boolean concluida = false;
+	private String situacao = "Andamento";
 
 	public Tarefa() {
 	}
 
 	public Tarefa(Long id, String titulo, String descricao, String responsavel, LocalDate deadline,
-			Prioridade prioridade, Boolean concluida) {
+			Prioridade prioridade, String situacao) {
 		this.id = id;
 		this.titulo = titulo;
 		this.descricao = descricao;
 		this.responsavel = responsavel;
 		this.deadline = deadline;
 		this.prioridade = prioridade;
-		this.concluida = concluida;
+		this.situacao = situacao;
 	}
 
 	public Long getId() {
@@ -99,12 +98,12 @@ public class Tarefa {
 		this.prioridade = prioridade;
 	}
 
-	public Boolean getConcluida() {
-		return concluida;
+	public String getSituacao() {
+		return situacao;
 	}
 
-	public void setConcluida(Boolean concluida) {
-		this.concluida = concluida;
+	public void setSituacao(String situacao) {
+		this.situacao = situacao;
 	}
 
 	@Override

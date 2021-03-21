@@ -6,6 +6,6 @@ create table tarefa(
     responsavel varchar(80) not null,
     deadline Date not null,
     prioridade varchar(20) not null,
-    concluida BOOLEAN not null
+    situacao varchar(20) not null
 
 );

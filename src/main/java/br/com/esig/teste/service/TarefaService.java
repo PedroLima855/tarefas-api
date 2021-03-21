@@ -1,5 +1,7 @@
 package br.com.esig.teste.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +24,13 @@ public class TarefaService {
 	}
 
 	public Tarefa salvarTarefa(Tarefa tarefa) {
-		 return repo.save(tarefa);
+
+		LocalDate date = tarefa.getDeadline();
+		date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+		tarefa.setDeadline(date);
+
+		return repo.save(tarefa);
 	}
 
 	public Tarefa editarTarefa(Long id, Tarefa tarefa) {
@@ -33,9 +41,17 @@ public class TarefaService {
 
 	}
 
-	public Tarefa atualizaTarefaEmAndamento(Tarefa tarefa, Boolean situacao) {
+	public Tarefa atualizaTarefaEmAndamento(Tarefa tarefa, String situacao) {
 
-		tarefa.setConcluida(situacao);
+		if(!situacao.equals("Andamento")){
+
+			if(!situacao.equals("Concluida")){
+
+				throw new RuntimeException("Ops, a situação só pode ser Concluida ou Andamento");
+			}
+		}
+
+		tarefa.setSituacao(situacao);
 		repo.save(tarefa);
 
 		return tarefa;
@@ -45,9 +61,9 @@ public class TarefaService {
 		repo.deleteById(id);
 	}
 
-	public List<Tarefa> listarTarefas(Long id, String titulo, String descricao, String responsavel, Boolean concluida) {
+	public List<Tarefa> listarTarefas(Long id, String titulo, String descricao, String responsavel, String situacao) {
 
-		return consultaRepository.buscar(id, titulo, descricao, responsavel, concluida);
+		return consultaRepository.buscar(id, titulo, descricao, responsavel, situacao);
 
 	}
 
